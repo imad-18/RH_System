@@ -3,7 +3,7 @@ package com.ensa.rhsystem.finaluiproject;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class ManageUsersController {
     @FXML
     private Label welcomeText;
 
