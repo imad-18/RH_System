@@ -1,4 +1,4 @@
-package com.ensa.rhsystem.finaluiproject;
+package com.ensa.rhsystem.finaluiproject.employeeControllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,8 +8,7 @@ import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 
-public class
-MainLayoutController {
+public class EmployeeMainLayoutController {
     @FXML
     private BorderPane mainBorderPane;
 
@@ -34,7 +33,7 @@ MainLayoutController {
 
     public void handleManageLeavesByEmployeeButton(ActionEvent actionEvent) {
         try {
-            Parent manageLeavesPage = FXMLLoader.load(getClass().getResource("employee/employee-manages-leaves.fxml"));
+            Parent manageLeavesPage = FXMLLoader.load(getClass().getResource("employee-manages-leaves.fxml"));
             mainBorderPane.setCenter(manageLeavesPage);
         } catch (IOException e) {
             e.printStackTrace();

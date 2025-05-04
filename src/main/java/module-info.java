@@ -6,4 +6,6 @@ module com.ensa.rhsystem.finaluiproject {
 
     opens com.ensa.rhsystem.finaluiproject to javafx.fxml;
     exports com.ensa.rhsystem.finaluiproject;
+    exports com.ensa.rhsystem.finaluiproject.employeeControllers;
+    opens com.ensa.rhsystem.finaluiproject.employeeControllers to javafx.fxml;
 }

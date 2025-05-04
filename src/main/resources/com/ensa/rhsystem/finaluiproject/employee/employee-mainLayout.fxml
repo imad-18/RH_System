@@ -11,11 +11,28 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ensa.rhsystem.finaluiproject.MainLayoutController">
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <BorderPane fx:id="mainBorderPane" layoutX="187.0" layoutY="156.0" prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <BorderPane layoutX="235.0" layoutY="166.0" prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <top>
+                  <AnchorPane prefHeight="29.0" prefWidth="1100.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <ImageView fitHeight="29.0" fitWidth="30.0" layoutX="31.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/logo_mrh2.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="68.0" layoutY="7.0" prefHeight="17.0" prefWidth="76.0" text="MRH System">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </top>
                <left>
                   <AnchorPane prefHeight="600.0" prefWidth="225.0" style="-fx-background-color: #219EBC; -fx-border-radius: 50px;" BorderPane.alignment="CENTER">
                      <children>
@@ -31,53 +48,30 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
-                        <Button onAction="#handleHomeButton" layoutX="26.0" layoutY="341.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="172.0" text="Manage Users">
+                        <Button layoutX="26.0" layoutY="341.0" mnemonicParsing="false" onAction="#handleHomeButton" prefHeight="32.0" prefWidth="172.0" text="Courses &amp; Events">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
                         <FontAwesomeIconView fill="#023047" glyphName="HOME" layoutX="34.0" layoutY="254.0" selectionEnd="0" size="20" />
-                        <Button onAction="#handleManageLeavesByEmployeeButton" layoutX="26.0" layoutY="285.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="172.0" text="Manage Employees">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Button>
                         <FontAwesomeIconView fill="#023047" glyphName="USERS" layoutX="33.0" layoutY="309.0" size="20" text="" />
-                        <FontAwesomeIconView fill="#023047" glyphName="USER_PLUS" layoutX="32.0" layoutY="364.0" size="20" />
+                        <FontAwesomeIconView fill="#023047" glyphName="BOOK" layoutX="32.0" layoutY="364.0" size="20" />
                         <Button alignment="CENTER_RIGHT" layoutX="18.0" layoutY="531.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="78.0" text="Log Out" />
                         <FontAwesomeIconView glyphName="SIGN_OUT" layoutX="23.0" layoutY="551.0" size="18" />
-                        <Button onAction="#handleManageLeavesButton" layoutX="27.0" layoutY="394.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="172.0" text="Manage Leaves">
+                        <Button layoutX="26.0" layoutY="285.0" mnemonicParsing="false" onAction="#handleManageLeavesButton" prefHeight="32.0" prefWidth="172.0" text="Apply For Leaves">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
-                        <FontAwesomeIconView fill="#023047" glyphName="CALENDAR" layoutX="35.0" layoutY="416.0" size="20" />
-                     </children>
-                  </AnchorPane>
-               </left>
-               <center>
-                  <AnchorPane fx:id="contentArea" prefHeight="571.0" prefWidth="810.0" BorderPane.alignment="CENTER" />
-
-               </center>
-               <right>
-                  <AnchorPane prefHeight="571.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
-               </right>
-               <top>
-                  <AnchorPane prefHeight="29.0" prefWidth="1100.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <ImageView fitHeight="29.0" fitWidth="30.0" layoutX="31.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/logo_mrh2.png" />
-                           </image>
-                        </ImageView>
-                        <Label layoutX="68.0" layoutY="7.0" prefHeight="17.0" prefWidth="76.0" text="MRH System">
+                        <FontAwesomeIconView fill="#023047" glyphName="CALENDAR" layoutX="34.0" layoutY="308.0" size="20" />
+                        <Label layoutX="73.0" layoutY="175.0" text="Dear User">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold" size="17.0" />
                            </font>
                         </Label>
                      </children>
                   </AnchorPane>
-               </top>
+               </left>
             </BorderPane>
          </children>
       </AnchorPane>
