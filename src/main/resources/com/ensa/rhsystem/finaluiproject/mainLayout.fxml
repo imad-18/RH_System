@@ -26,18 +26,18 @@
                            </font>
                         </Label>
                         <Line endX="60.0" layoutX="127.0" layoutY="206.0" startX="-90.33332824707031" />
-                        <Button layoutX="26.0" layoutY="231.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="172.0" text="Home">
+                        <Button layoutX="26.0" layoutY="231.0" mnemonicParsing="false" onAction="#handleHomeButton" prefHeight="32.0" prefWidth="172.0" text="Home">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
-                        <Button onAction="#handleHomeButton" layoutX="26.0" layoutY="341.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="172.0" text="Manage Users">
+                        <Button layoutX="26.0" layoutY="341.0" mnemonicParsing="false" onAction="#handleManageUsersButton" prefHeight="32.0" prefWidth="172.0" text="Manage Users">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
                         <FontAwesomeIconView fill="#023047" glyphName="HOME" layoutX="34.0" layoutY="254.0" selectionEnd="0" size="20" />
-                        <Button onAction="#handleManageLeavesByEmployeeButton" layoutX="26.0" layoutY="285.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="172.0" text="Manage Employees">
+                        <Button layoutX="26.0" layoutY="285.0" mnemonicParsing="false" onAction="#handleManageLeavesByEmployeeButton" prefHeight="32.0" prefWidth="172.0" text="Manage Employees">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -46,7 +46,7 @@
                         <FontAwesomeIconView fill="#023047" glyphName="USER_PLUS" layoutX="32.0" layoutY="364.0" size="20" />
                         <Button alignment="CENTER_RIGHT" layoutX="18.0" layoutY="531.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="78.0" text="Log Out" />
                         <FontAwesomeIconView glyphName="SIGN_OUT" layoutX="23.0" layoutY="551.0" size="18" />
-                        <Button onAction="#handleManageLeavesButton" layoutX="27.0" layoutY="394.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="172.0" text="Manage Leaves">
+                        <Button layoutX="27.0" layoutY="394.0" mnemonicParsing="false" onAction="#handleManageLeavesButton" prefHeight="32.0" prefWidth="172.0" text="Manage Leaves">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -63,7 +63,7 @@
                   <AnchorPane prefHeight="571.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
                </right>
                <top>
-                  <AnchorPane prefHeight="29.0" prefWidth="1100.0" BorderPane.alignment="CENTER">
+                  <AnchorPane prefHeight="29.0" prefWidth="1100.0" style="-fx-background-color: linear-gradient(to bottom right, #CEEBF2, #a7f0ff , #00d4ff, #19688A);" BorderPane.alignment="CENTER">
                      <children>
                         <ImageView fitHeight="29.0" fitWidth="30.0" layoutX="31.0" pickOnBounds="true" preserveRatio="true">
                            <image>

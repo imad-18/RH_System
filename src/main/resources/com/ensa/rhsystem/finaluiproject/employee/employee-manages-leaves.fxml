@@ -8,18 +8,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="571.0" prefWidth="842.0" style="-fx-background-color: #caf0f8; -fx-background-radius: 0 10px 10px 0;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ensa.rhsystem.finaluiproject.employeeControllers.EmployeeManagesLeavesController">
    <children>
-      <AnchorPane layoutX="40.0" layoutY="43.0" prefHeight="223.0" prefWidth="762.0" stylesheets="@../css/sidebar.css">
+      <AnchorPane layoutX="40.0" layoutY="43.0" prefHeight="223.0" prefWidth="762.0" style="-fx-border-radius: 10px;">
          <children>
-            <TableView prefHeight="223.0" prefWidth="762.0" style="-fx-background-color: #fff; -fx-background-radius: 8px;">
+            <TableView prefHeight="223.0" prefWidth="762.0" style="-fx-background-color: #fff; -fx-background-radius: 0 0 10px 10px; -fx-background-insets: 0 0 0 0; -fx-border-color: linear-gradient(to bottom right, #a7f0ff , #00d4ff); -fx-border-radius: 0 0 10px 10px;">
                <columns>
-                  <TableColumn prefWidth="143.99999618530273" text="Leave ID" />
-                  <TableColumn prefWidth="134.6666717529297" text="Leave Type" />
-                  <TableColumn prefWidth="160.66665649414062" text="Start Date" />
-                  <TableColumn prefWidth="159.3333740234375" text="End Date" />
-                  <TableColumn prefWidth="166.0" text="Status" />
+                  <TableColumn prefWidth="143.99999618530273" style="-fx-background-color: linear-gradient(to bottom right, #a7f0ff , #00d4ff); -fx-size: 40px; -fx-border-radius: 10px 0 0 0;" text="Leave ID" />
+                  <TableColumn prefWidth="134.6666717529297" style="-fx-background-color: #00d4ff; -fx-size: 40px;" text="Leave Type" />
+                  <TableColumn prefWidth="160.66665649414062" style="-fx-background-color: #00d4ff;" text="Start Date" />
+                  <TableColumn prefWidth="159.3333740234375" style="-fx-background-color: #00d4ff;" text="End Date" />
+                  <TableColumn prefWidth="166.0" style="-fx-background-color: linear-gradient(to bottom left, #a7f0ff , #00d4ff); -fx-border-radius: 10px; -fx-background-radius: 0 10px 0 0;" text="Status" />
                </columns>
             </TableView>
          </children>

@@ -11,14 +11,13 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ensa.rhsystem.finaluiproject.employeeControllers.EmployeeMainLayoutController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <BorderPane layoutX="235.0" layoutY="166.0" prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <BorderPane fx:id="mainBorderPane" layoutX="235.0" layoutY="166.0" prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <top>
-                  <AnchorPane prefHeight="29.0" prefWidth="1100.0" BorderPane.alignment="CENTER">
+                  <AnchorPane prefHeight="29.0" prefWidth="1100.0" style="-fx-background-color: linear-gradient(to bottom right, #CEEBF2, #a7f0ff , #00d4ff, #19688A);" BorderPane.alignment="CENTER">
                      <children>
                         <ImageView fitHeight="29.0" fitWidth="30.0" layoutX="31.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -43,12 +42,12 @@
                            </font>
                         </Label>
                         <Line endX="60.0" layoutX="127.0" layoutY="206.0" startX="-90.33332824707031" />
-                        <Button layoutX="26.0" layoutY="231.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="172.0" text="Home">
+                        <Button layoutX="26.0" layoutY="231.0" mnemonicParsing="false" onAction="#handleHomeButton" prefHeight="32.0" prefWidth="172.0" text="Home">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
-                        <Button layoutX="26.0" layoutY="341.0" mnemonicParsing="false" onAction="#handleHomeButton" prefHeight="32.0" prefWidth="172.0" text="Courses &amp; Events">
+                        <Button layoutX="26.0" layoutY="341.0" mnemonicParsing="false" onAction="#handleCoursesEventsButton" prefHeight="32.0" prefWidth="172.0" text="Courses &amp; Events">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -57,8 +56,9 @@
                         <FontAwesomeIconView fill="#023047" glyphName="USERS" layoutX="33.0" layoutY="309.0" size="20" text="" />
                         <FontAwesomeIconView fill="#023047" glyphName="BOOK" layoutX="32.0" layoutY="364.0" size="20" />
                         <Button alignment="CENTER_RIGHT" layoutX="18.0" layoutY="531.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="78.0" text="Log Out" />
+                        <Button alignment="CENTER_RIGHT" layoutX="18.0" layoutY="531.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="78.0" text="Log Out" />
                         <FontAwesomeIconView glyphName="SIGN_OUT" layoutX="23.0" layoutY="551.0" size="18" />
-                        <Button layoutX="26.0" layoutY="285.0" mnemonicParsing="false" onAction="#handleManageLeavesButton" prefHeight="32.0" prefWidth="172.0" text="Apply For Leaves">
+                        <Button layoutX="26.0" layoutY="285.0" mnemonicParsing="false" onAction="#handleManageLeavesByEmployeeButton" prefHeight="32.0" prefWidth="172.0" text="Apply For Leaves">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -72,6 +72,9 @@
                      </children>
                   </AnchorPane>
                </left>
+               <center>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+               </center>
             </BorderPane>
          </children>
       </AnchorPane>
