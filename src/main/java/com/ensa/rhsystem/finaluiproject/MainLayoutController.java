@@ -36,7 +36,8 @@ MainLayoutController {
 
     public void handleManageEmployeesButton(ActionEvent actionEvent) {
         try {
-            Parent manageEmployeesPage = FXMLLoader.load(getClass().getResource(""));
+            Parent manageEmployeesPage = FXMLLoader.load(getClass().getResource("manage-employees.fxml"));
+            mainBorderPane.setCenter(manageEmployeesPage);
         } catch (IOException e){
             e.printStackTrace();
         }
