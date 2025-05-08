@@ -1,28 +1,23 @@
 package com.ensa.rhsystem.finaluiproject;
 
-import com.ensa.rhsystem.finaluiproject.modules.Department;
+import com.ensa.rhsystem.finaluiproject.dao.UserDAO;
 import com.ensa.rhsystem.finaluiproject.modules.User;
 import com.ensa.rhsystem.finaluiproject.utils.DbConnection;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
+
+import static com.ensa.rhsystem.finaluiproject.dao.UserDAO.showErrorDialog;
 
 public class ManageEmployeesController implements Initializable {
 
@@ -85,20 +80,6 @@ public class ManageEmployeesController implements Initializable {
     }
 
 
-    private void showErrorDialog(String title, String header, Exception e) {
-        // Show an alert with the error message
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(e.getMessage());
-        alert.showAndWait();
-
-        // You can also print the stack trace for debugging in the console
-        e.printStackTrace();
-    }
-
-
-
 
     //Insert a new user into database
     @FXML
@@ -115,15 +96,12 @@ public class ManageEmployeesController implements Initializable {
             pstmt.setString(4, phoneField.getText());
             pstmt.setString(5, jobTitleField.getText());
 
-
-
             LocalDate hireLocalDate = hireDatePicker.getValue();
             java.sql.Date sqlHireDate = (hireLocalDate != null) ? java.sql.Date.valueOf(hireLocalDate) : null;
             pstmt.setDate(6, sqlHireDate);
 
-
             // Get department ID by name
-            int departmentId = getDepartmentIdByName(departmentComboBox.getValue());
+            int departmentId = UserDAO.getDepartmentIdByName(departmentComboBox.getValue());
             pstmt.setInt(7, departmentId);
 
             System.out.println("dep name = " + departmentComboBox.getValue());
@@ -147,20 +125,7 @@ public class ManageEmployeesController implements Initializable {
         }
     }
 
-    //Method to get the id of the selected Department
-    private int getDepartmentIdByName(String departmentName) throws Exception {
-        String query = "SELECT id_department FROM department WHERE name = ?";
-        try (Connection conn = DbConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, departmentName);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("id_department");
-            } else {
-                throw new Exception("Department not found: " + departmentName);
-            }
-        }
-    }
+
 
     private void clearFormFields() {
         firstNameField.clear();
@@ -190,55 +155,7 @@ public class ManageEmployeesController implements Initializable {
 
     @FXML
     private void displayUsersData() {
-        ObservableList<User> userList = FXCollections.observableArrayList();
-
-        String query = "SELECT u.*, d.name AS department_name " +
-                "FROM users u " +
-                "JOIN department d ON u.id_department = d.id_department"; // The correct table name is 'user', not 'users'
-
-        try (Connection conn = DbConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
-
-            while (rs.next()) {
-                User user = new User();
-                user.setIdUser(rs.getInt("id_user"));
-                user.setFirstName(rs.getString("first_name"));
-                user.setLastName(rs.getString("last_name"));
-                user.setEmailAddress(rs.getString("email_address"));
-                user.setPhoneNumber(rs.getString("phone_number"));
-                user.setJobTitle(rs.getString("job_title"));
-                user.setHireDate(rs.getDate("hire_date"));
-
-                // Role is stored in 'role' column
-                user.setRole(rs.getString("role_admin_or_employee"));
-
-                // 🟢 Set department name
-                String deptName = rs.getString("department_name");
-                System.out.println("Fetched department name: " + deptName); // Debug
-                user.setDepartmentName(deptName);  // ⬅️ Make sure this is called before adding to list
-
-                userList.add(user);
-                if (userList.isEmpty()) {
-                    System.out.println("No users found.");
-                } else {
-                    System.out.println("Users loaded: " + userList.size());
-                }
-                for (User u : userList) {
-                    System.out.println("ID: " + u.getIdUser()
-                            + ", Name: " + u.getFirstName() + " " + u.getLastName()
-                            + ", Email: " + u.getEmailAddress()
-                            + ", Role: " + u.getRole()
-                            + ", Department naaaamw: " + (u.getDepartmentName() != null ? u.getDepartmentName() : "None"));
-                }
-
-
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        ObservableList<User> userList = UserDAO.getAllUsers();
         // Link table columns to User fields
         UserID.setCellValueFactory(cellData -> {return new SimpleIntegerProperty(cellData.getValue().getIdUser()).asObject();});
         FirstName.setCellValueFactory(cellData -> {return new SimpleStringProperty(cellData.getValue().getFirstName());});
@@ -254,7 +171,6 @@ public class ManageEmployeesController implements Initializable {
         DepartmentName.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getDepartmentName())
         );
-
 
         if (DepartmentName == null) {
             System.out.println("⚠ DepartmentName column is not initialized!");
@@ -288,10 +204,4 @@ public class ManageEmployeesController implements Initializable {
             hireDatePicker.setValue(selected.getHireDate().toLocalDate());
         }
     }
-
-
-
-
-
-
 }
