@@ -25,11 +25,9 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class ManageEmployeesController implements Initializable {
-    @FXML
-    private ComboBox<String> roleComboBox;
-    @FXML
-    private ComboBox<String> departmentComboBox;
 
+    @FXML private ComboBox<String> roleComboBox;
+    @FXML private ComboBox<String> departmentComboBox;
     @FXML private TextField firstNameField;
     @FXML private TextField lastNameField;
     @FXML private TextField emailField;
@@ -117,9 +115,8 @@ public class ManageEmployeesController implements Initializable {
             pstmt.setString(4, phoneField.getText());
             pstmt.setString(5, jobTitleField.getText());
 
-            // Convert LocalDate from DatePicker to java.sql.Date
 
-// Convert LocalDate from DatePicker to java.sql.Date
+
             LocalDate hireLocalDate = hireDatePicker.getValue();
             java.sql.Date sqlHireDate = (hireLocalDate != null) ? java.sql.Date.valueOf(hireLocalDate) : null;
             pstmt.setDate(6, sqlHireDate);
@@ -128,6 +125,8 @@ public class ManageEmployeesController implements Initializable {
             // Get department ID by name
             int departmentId = getDepartmentIdByName(departmentComboBox.getValue());
             pstmt.setInt(7, departmentId);
+
+            System.out.println("dep name = " + departmentComboBox.getValue());
 
             pstmt.setString(8, roleComboBox.getValue());
 
@@ -177,11 +176,11 @@ public class ManageEmployeesController implements Initializable {
 
 
 
-    @FXML
-    private TableView<User> usersTable;
+    //------------ Display data in the table view ---------
+    @FXML private TableView<User> usersTable;
     @FXML private TableColumn<User, Integer> UserID;
     @FXML private TableColumn<User, String> RoleID;
-    @FXML private TableColumn<User, Integer> DepartmentID;
+    @FXML private TableColumn<User, String> DepartmentName;
     @FXML private TableColumn<User, String> FirstName;
     @FXML private TableColumn<User, String> LastName;
     @FXML private TableColumn<User, String> Email;
@@ -193,7 +192,9 @@ public class ManageEmployeesController implements Initializable {
     private void displayUsersData() {
         ObservableList<User> userList = FXCollections.observableArrayList();
 
-        String query = "SELECT * FROM users"; // The correct table name is 'user', not 'users'
+        String query = "SELECT u.*, d.name AS department_name " +
+                "FROM users u " +
+                "JOIN department d ON u.id_department = d.id_department"; // The correct table name is 'user', not 'users'
 
         try (Connection conn = DbConnection.getConnection();
              Statement stmt = conn.createStatement();
@@ -212,13 +213,13 @@ public class ManageEmployeesController implements Initializable {
                 // Role is stored in 'role' column
                 user.setRole(rs.getString("role_admin_or_employee"));
 
-                // Department is referenced by id, we only show the id
-                Department department = new Department();
-                department.setIdDepartment(rs.getInt("id_department"));
-                user.setDepartment(department);
+                // 🟢 Set department name
+                String deptName = rs.getString("department_name");
+                System.out.println("Fetched department name: " + deptName); // Debug
+                user.setDepartmentName(deptName);  // ⬅️ Make sure this is called before adding to list
 
                 userList.add(user);
-                /*if (userList.isEmpty()) {
+                if (userList.isEmpty()) {
                     System.out.println("No users found.");
                 } else {
                     System.out.println("Users loaded: " + userList.size());
@@ -228,8 +229,8 @@ public class ManageEmployeesController implements Initializable {
                             + ", Name: " + u.getFirstName() + " " + u.getLastName()
                             + ", Email: " + u.getEmailAddress()
                             + ", Role: " + u.getRole()
-                            + ", Department ID: " + (u.getDepartment() != null ? u.getDepartment().getIdDepartment() : "None"));
-                }*/
+                            + ", Department naaaamw: " + (u.getDepartmentName() != null ? u.getDepartmentName() : "None"));
+                }
 
 
             }
@@ -250,44 +251,24 @@ public class ManageEmployeesController implements Initializable {
             return new SimpleStringProperty(hireDate != null ? hireDate.toString() : "");
         });
         RoleID.setCellValueFactory(cellData -> {return new SimpleStringProperty(cellData.getValue().getRole());});
-        DepartmentID.setCellValueFactory(cellData -> {
-            // Display department ID from the nested Department object
-            return new SimpleIntegerProperty(cellData.getValue().getDepartment().getIdDepartment()).asObject();
-        });
+        DepartmentName.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getDepartmentName())
+        );
+
+
+        if (DepartmentName == null) {
+            System.out.println("⚠ DepartmentName column is not initialized!");
+        }
 
         usersTable.setItems(userList);
     }
 
 
     // -------------- get the selected row -------------------
-    // -------------- 1st method: fct invoked within a button -------
-
-    /*public User getTheSelectedRow() {
-        return usersTable.getSelectionModel().getSelectedItem();
-    }
-
-    // Example: use it in a button click handler
-    @FXML
-    private void handleButtonClick(ActionEvent event) {
-        User selected = getTheSelectedRow();
-        if (selected != null) {
-            System.out.println("Selected User: " + selected.getFirstName());
-            firstNameField.setText(selected.getFirstName());
-            lastNameField.setText(selected.getLastName());
-            emailField.setText(selected.getEmailAddress());
-            phoneField.setText(selected.getPhoneNumber());
-            jobTitleField.setText(selected.getJobTitle());
-            departmentComboBox.setValue(selected.getDepartment().getName());
-            //System.out.println("Selected department: " + departmentComboBox.getValue());
-            roleComboBox.setValue(selected.getRole());
-            hireDatePicker.setValue(selected.getHireDate().toLocalDate());
-        } else {
-            System.out.println("No user selected.");
-        }
-    }*/
-
     //whenever a row is clicked/selected, all the user’s data will be displayed instantly in the input fields
     // — no button needed.
+
+
     private void populateFieldsWithSelectedUser(User selected) {
         firstNameField.setText(selected.getFirstName());
         lastNameField.setText(selected.getLastName());
@@ -297,7 +278,7 @@ public class ManageEmployeesController implements Initializable {
 
         // Set department name in ComboBox
         //String deptName = getDepartmentNameById(selected.getDepartment().getId());
-        departmentComboBox.setValue(selected.getDepartment().getName());
+        departmentComboBox.setValue(selected.getDepartmentName());
 
         // Set role
         roleComboBox.setValue(selected.getRole()); // Assuming getRole() returns "Admin" or "User"

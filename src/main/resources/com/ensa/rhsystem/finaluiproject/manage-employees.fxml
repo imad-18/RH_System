@@ -57,7 +57,7 @@
                         <TableColumn fx:id="Phone" prefWidth="88.66665649414062" style="-fx-background-color: #00d4ff;" text="Phone" />
                         <TableColumn fx:id="JobTitle" prefWidth="80.00003051757812" style="-fx-background-color: #00d4ff;" text="Job Title" />
                   <TableColumn fx:id="HireDate" prefWidth="82.66668701171875" style="-fx-background-color: #00d4ff;" text="Hire Date" />
-                  <TableColumn fx:id="DepartmentID" prefWidth="100.0" style="-fx-background-color: #00d4ff;" text="Department" />
+                  <TableColumn fx:id="DepartmentName" prefWidth="100.0" style="-fx-background-color: #00d4ff;" text="Department" />
                         <TableColumn fx:id="RoleID" prefWidth="75.33331298828125" style="-fx-background-color: linear-gradient(to bottom left, #a7f0ff , #00d4ff); -fx-size: 30px;" text="Role" />
                     </columns>
                 </TableView>

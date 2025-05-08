@@ -13,17 +13,26 @@ public class User {
     private String jobTitle;
     private Department department; // Foreign key reference to Department
     private String role;
+    private String departmentName;
+
 
     private final String[] roleAdminOrEmployee = {"Admin", "User"};
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
 
     public User() {
     }
 
-    public User(int idUser, Department department, String jobTitle,
-                Date hireDate, Date dateOfBirth, String address,
-                String phoneNumber, String emailAddress, String lastName,
-                String firstName) {
-        this.idUser = idUser;
+    public User(String departmentName, String role, Department department, String jobTitle, Date hireDate, Date dateOfBirth, String address, String phoneNumber, String emailAddress, String lastName, String firstName, int idUser) {
+        this.departmentName = departmentName;
+        this.role = role;
         this.department = department;
         this.jobTitle = jobTitle;
         this.hireDate = hireDate;
@@ -33,7 +42,9 @@ public class User {
         this.emailAddress = emailAddress;
         this.lastName = lastName;
         this.firstName = firstName;
+        this.idUser = idUser;
     }
+
 
     // Getters and Setters
     public String getRole (){
