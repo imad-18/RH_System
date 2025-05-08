@@ -8,7 +8,7 @@ public class Department {
     private String description;
     private User chef; // Reference to the chef (foreign key)
 
-    private static String[] name = {"IT", "Finance", "SalesForce"};
+    private String name ;
     // Getters and Setters
     public int getIdDepartment() {
         return idDepartment;
@@ -18,10 +18,14 @@ public class Department {
         this.idDepartment = idDepartment;
     }
 
-    public static String[] getName() {
+
+    public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getLocation() {
         return location;

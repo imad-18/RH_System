@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -17,8 +18,11 @@ import java.net.URL;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class ManageEmployeesController implements Initializable {
     @FXML
@@ -40,8 +44,18 @@ public class ManageEmployeesController implements Initializable {
             User tempUser = new User(); // Only needed to access the array
             roleComboBox.getItems().addAll(Arrays.asList(tempUser.getRoleAdminOrEmployee()));
 
+
+            usersTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+                if (newSelection != null) {
+                    populateFieldsWithSelectedUser(newSelection);
+                }
+            });
+
+
             // Load departments from the database
             loadDepartmentNames();
+            displayUsersData();
+
         } catch (Exception e) {
             showErrorDialog("Initialization Error", "An error occurred while initializing the controller.", e);
         }
@@ -163,43 +177,6 @@ public class ManageEmployeesController implements Initializable {
 
 
 
-
-
-    /*@FXML private TableColumn UserID;
-    @FXML private TableColumn RoleID;
-    @FXML private TableColumn DepartmentID;
-    @FXML private TableColumn FirstName;
-    @FXML private TableColumn LastName;
-    @FXML private TableColumn Email;
-    @FXML private TableColumn Phone;
-    @FXML private TableColumn JobTitle;
-    @FXML private TableColumn HireDate;
-
-    //Display the user'database into the table
-    private ObservableList<User> usersList = FXCollections.observableArrayList();
-
-    public static ResultSet getAllUsers() {
-        String userDataQuery = "SELECT * FROM users";
-        try {
-            Connection conn = DbConnection.getConnection();
-            Statement stmt = conn.createStatement();
-            return stmt.executeQuery(userDataQuery);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    @FXML
-    private void displayUsersData() throws SQLException {
-
-        // Get student data from the database
-        ResultSet rs = getAllUsers();
-        while (rs != null && rs.next()){
-            us
-        }
-    }*/
-
-
     @FXML
     private TableView<User> usersTable;
     @FXML private TableColumn<User, Integer> UserID;
@@ -241,7 +218,7 @@ public class ManageEmployeesController implements Initializable {
                 user.setDepartment(department);
 
                 userList.add(user);
-                if (userList.isEmpty()) {
+                /*if (userList.isEmpty()) {
                     System.out.println("No users found.");
                 } else {
                     System.out.println("Users loaded: " + userList.size());
@@ -252,7 +229,7 @@ public class ManageEmployeesController implements Initializable {
                             + ", Email: " + u.getEmailAddress()
                             + ", Role: " + u.getRole()
                             + ", Department ID: " + (u.getDepartment() != null ? u.getDepartment().getIdDepartment() : "None"));
-                }
+                }*/
 
 
             }
@@ -279,6 +256,56 @@ public class ManageEmployeesController implements Initializable {
         });
 
         usersTable.setItems(userList);
+    }
+
+
+    // -------------- get the selected row -------------------
+    // -------------- 1st method: fct invoked within a button -------
+
+    /*public User getTheSelectedRow() {
+        return usersTable.getSelectionModel().getSelectedItem();
+    }
+
+    // Example: use it in a button click handler
+    @FXML
+    private void handleButtonClick(ActionEvent event) {
+        User selected = getTheSelectedRow();
+        if (selected != null) {
+            System.out.println("Selected User: " + selected.getFirstName());
+            firstNameField.setText(selected.getFirstName());
+            lastNameField.setText(selected.getLastName());
+            emailField.setText(selected.getEmailAddress());
+            phoneField.setText(selected.getPhoneNumber());
+            jobTitleField.setText(selected.getJobTitle());
+            departmentComboBox.setValue(selected.getDepartment().getName());
+            //System.out.println("Selected department: " + departmentComboBox.getValue());
+            roleComboBox.setValue(selected.getRole());
+            hireDatePicker.setValue(selected.getHireDate().toLocalDate());
+        } else {
+            System.out.println("No user selected.");
+        }
+    }*/
+
+    //whenever a row is clicked/selected, all the user’s data will be displayed instantly in the input fields
+    // — no button needed.
+    private void populateFieldsWithSelectedUser(User selected) {
+        firstNameField.setText(selected.getFirstName());
+        lastNameField.setText(selected.getLastName());
+        emailField.setText(selected.getEmailAddress());
+        phoneField.setText(selected.getPhoneNumber());
+        jobTitleField.setText(selected.getJobTitle());
+
+        // Set department name in ComboBox
+        //String deptName = getDepartmentNameById(selected.getDepartment().getId());
+        departmentComboBox.setValue(selected.getDepartment().getName());
+
+        // Set role
+        roleComboBox.setValue(selected.getRole()); // Assuming getRole() returns "Admin" or "User"
+
+        // Set hire date
+        if (selected.getHireDate() != null) {
+            hireDatePicker.setValue(selected.getHireDate().toLocalDate());
+        }
     }
 
 
