@@ -5,6 +5,16 @@ public class Compte {
     private String login;
     private String password;
     private User user; // Foreign key reference to User
+    private int idUser;
+
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
 
     // Getters and Setters
     public int getIdCompte() {
