@@ -13,8 +13,10 @@ import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
+import static com.ensa.rhsystem.finaluiproject.dao.UserDAO.getDepartmentIdByName;
 import static com.ensa.rhsystem.finaluiproject.dao.UserDAO.showErrorDialog;
 
 public class ManageEmployeesController implements Initializable {
@@ -100,7 +102,7 @@ public class ManageEmployeesController implements Initializable {
             pstmt.setDate(6, sqlHireDate);
 
             // Get department ID by name
-            int departmentId = UserDAO.getDepartmentIdByName(departmentComboBox.getValue());
+            int departmentId = getDepartmentIdByName(departmentComboBox.getValue());
             pstmt.setInt(7, departmentId);
 
             System.out.println("dep name = " + departmentComboBox.getValue());
@@ -139,6 +141,7 @@ public class ManageEmployeesController implements Initializable {
             showErrorDialog("Database Error", "An error occurred while inserting the user.", e);
         }
     }
+
 
 
 
@@ -189,9 +192,6 @@ public class ManageEmployeesController implements Initializable {
                 new SimpleStringProperty(cellData.getValue().getDepartmentName())
         );
 
-        if (DepartmentName == null) {
-            System.out.println("⚠ DepartmentName column is not initialized!");
-        }
         NetSalary.setCellValueFactory(cellData ->
                 new ReadOnlyObjectWrapper<>(cellData.getValue().getNetSalary())
         );
@@ -223,7 +223,112 @@ public class ManageEmployeesController implements Initializable {
         if (selected.getHireDate() != null) {
             hireDatePicker.setValue(selected.getHireDate().toLocalDate());
         }
-
+        // Set net salary
         salaryField.setText(String.valueOf(selected.getNetSalary()));
     }
+
+
+    public void updateUser() {
+        User selected = usersTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            System.out.println("No user selected.");
+            return;
+        }
+
+        String userUpdateQuery = "UPDATE users SET first_name = ?, last_name = ?, email_address = ?, phone_number = ?, job_title = ?, hire_date = ?, id_department = ?, role_admin_or_employee = ? WHERE id_user = ?";
+        String salaryUpdateQuery = "UPDATE salary SET net_salary = ? WHERE id_user = ?";
+
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement userPstmt = conn.prepareStatement(userUpdateQuery);
+             PreparedStatement salaryPstmt = conn.prepareStatement(salaryUpdateQuery)) {
+
+            // Update users table
+            userPstmt.setString(1, firstNameField.getText());
+            userPstmt.setString(2, lastNameField.getText());
+            userPstmt.setString(3, emailField.getText());
+            userPstmt.setString(4, phoneField.getText());
+            userPstmt.setString(5, jobTitleField.getText());
+
+            LocalDate hireLocalDate = hireDatePicker.getValue();
+            userPstmt.setDate(6, hireLocalDate != null ? java.sql.Date.valueOf(hireLocalDate) : null);
+
+            int departmentId = getDepartmentIdByName(departmentComboBox.getValue());
+            userPstmt.setInt(7, departmentId);
+
+            userPstmt.setString(8, roleComboBox.getValue());
+            userPstmt.setInt(9, selected.getIdUser());
+
+            userPstmt.executeUpdate();
+
+            // Update salary table
+            double netSalary = Double.parseDouble(salaryField.getText());
+            salaryPstmt.setDouble(1, netSalary);
+            salaryPstmt.setInt(2, selected.getIdUser());
+
+            salaryPstmt.executeUpdate();
+
+            System.out.println("User and salary updated successfully.");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText(null);
+            alert.setContentText("User updated successfully!");
+            alert.showAndWait();
+            System.out.println("User updated successfully.");
+
+            clearFormFields();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteUser(){
+        User selected = usersTable.getSelectionModel().getSelectedItem();
+        String deleteUserQuery = "DELETE FROM users WHERE id_user = ?";
+        String deleteSalaryQuery = "DELETE FROM salary WHERE id_user = ?";
+
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement userPstmt = conn.prepareStatement(deleteUserQuery);
+             PreparedStatement salaryPstmt = conn.prepareStatement(deleteSalaryQuery)){
+
+            userPstmt.setInt(1, selected.getIdUser());
+            userPstmt.executeUpdate();
+
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @FXML
+    private void handleDeleteButtonClick() {
+        User selected = usersTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            System.out.println("No user selected.");
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Confirmation");
+        alert.setHeaderText("Are you sure you want to delete this user?");
+        alert.setContentText("This will permanently remove the user and their salary record.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            boolean success = UserDAO.deleteUserById(selected.getIdUser());
+            if (success) {
+                usersTable.getItems().remove(selected);  // remove from TableView
+                System.out.println("User deleted successfully.");
+            } else {
+                System.err.println("Failed to delete user.");
+            }
+        }
+        clearFormFields();
+    }
+
+
 }

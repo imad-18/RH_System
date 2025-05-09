@@ -87,4 +87,35 @@ public class UserDAO {
         // You can also print the stack trace for debugging in the console
         e.printStackTrace();
     }
+
+
+    // delete the seleceted user
+    // Be carefull to not delete the user from the users table before deleting from the salary table.
+    // beacause if we did so. We won't be able to delete the user'salary info from salary table.
+    // cus the salary tab won't find the 'id_user' -already deleted from the 'users' tab -
+
+    public static boolean deleteUserById(int userId) {
+        String deleteSalaryQuery = "DELETE FROM salary WHERE id_user = ?";
+        String deleteUserQuery = "DELETE FROM users WHERE id_user = ?";
+
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement salaryPstmt = conn.prepareStatement(deleteSalaryQuery);
+             PreparedStatement userPstmt = conn.prepareStatement(deleteUserQuery)) {
+
+            // Delete from child table first (salary)
+            salaryPstmt.setInt(1, userId);
+            salaryPstmt.executeUpdate();
+
+            // Then delete from parent table (users)
+            userPstmt.setInt(1, userId);
+            int rowsAffected = userPstmt.executeUpdate();
+
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
