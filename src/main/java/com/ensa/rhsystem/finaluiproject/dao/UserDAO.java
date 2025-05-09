@@ -13,9 +13,10 @@ public class UserDAO {
     public static ObservableList<User> getAllUsers(){
         ObservableList<User> userList = FXCollections.observableArrayList();
 
-        String query = "SELECT u.*, d.name AS department_name " +
+        String query = "SELECT u.*, d.name AS department_name, s.net_salary " +
                 "FROM users u " +
-                "JOIN department d ON u.id_department = d.id_department";
+                "JOIN department d ON u.id_department = d.id_department " +
+                "JOIN salary s ON u.id_user = s.id_user";
 
         try (Connection conn = DbConnection.getConnection();
              Statement stmt = conn.createStatement();
@@ -32,6 +33,7 @@ public class UserDAO {
                 user.setHireDate(rs.getDate("hire_date"));
                 user.setRole(rs.getString("role_admin_or_employee"));
                 user.setDepartmentName(rs.getString("department_name"));
+                user.setNetSalary(rs.getFloat("net_salary"));
 
                 userList.add(user);
             }

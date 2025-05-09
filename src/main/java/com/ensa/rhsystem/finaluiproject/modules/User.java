@@ -14,10 +14,17 @@ public class User {
     private Department department; // Foreign key reference to Department
     private String role;
     private String departmentName;
+    private float netSalary;
 
 
     private final String[] roleAdminOrEmployee = {"Admin", "User"};
 
+    public float getNetSalary() {
+        return netSalary;
+    }
+    public void setNetSalary(float netSalary) {
+        this.netSalary = netSalary;
+    }
     public String getDepartmentName() {
         return departmentName;
     }
@@ -30,7 +37,7 @@ public class User {
     public User() {
     }
 
-    public User(String departmentName, String role, Department department, String jobTitle, Date hireDate, Date dateOfBirth, String address, String phoneNumber, String emailAddress, String lastName, String firstName, int idUser) {
+    public User(String departmentName, String role, Department department, String jobTitle, Date hireDate, Date dateOfBirth, String address, String phoneNumber, String emailAddress, String lastName, String firstName, int idUser, float netSalary) {
         this.departmentName = departmentName;
         this.role = role;
         this.department = department;
@@ -43,6 +50,7 @@ public class User {
         this.lastName = lastName;
         this.firstName = firstName;
         this.idUser = idUser;
+        this.netSalary = netSalary;
     }
 
 

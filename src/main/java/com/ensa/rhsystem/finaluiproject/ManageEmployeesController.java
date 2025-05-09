@@ -3,13 +3,11 @@ package com.ensa.rhsystem.finaluiproject;
 import com.ensa.rhsystem.finaluiproject.dao.UserDAO;
 import com.ensa.rhsystem.finaluiproject.modules.User;
 import com.ensa.rhsystem.finaluiproject.utils.DbConnection;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 
 import java.net.URL;
 import java.sql.*;
@@ -29,6 +27,7 @@ public class ManageEmployeesController implements Initializable {
     @FXML private TextField phoneField;
     @FXML private TextField jobTitleField;
     @FXML private DatePicker hireDatePicker; // Prefer using DatePicker instead
+    @FXML private TextField salaryField;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -88,7 +87,7 @@ public class ManageEmployeesController implements Initializable {
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DbConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, firstNameField.getText());
             pstmt.setString(2, lastNameField.getText());
@@ -109,7 +108,23 @@ public class ManageEmployeesController implements Initializable {
             pstmt.setString(8, roleComboBox.getValue());
 
             int rowsInserted = pstmt.executeUpdate();
+            int userId = -1;
             if (rowsInserted > 0) {
+
+                ResultSet generatedKeys = pstmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    userId = generatedKeys.getInt(1);
+                }
+
+                if (userId != -1) {
+                    String insertSalarySql = "INSERT INTO salary (id_user, net_salary) VALUES (?, ?)";
+                    try (PreparedStatement salaryPstmt = conn.prepareStatement(insertSalarySql)) {
+                        salaryPstmt.setInt(1, userId);
+                        salaryPstmt.setDouble(2, Double.parseDouble(salaryField.getText()));
+                        salaryPstmt.executeUpdate();
+                    }
+                }
+
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Success");
                 alert.setHeaderText(null);
@@ -136,6 +151,7 @@ public class ManageEmployeesController implements Initializable {
         hireDatePicker.setValue(null);
         departmentComboBox.getSelectionModel().clearSelection();
         roleComboBox.getSelectionModel().clearSelection();
+        salaryField.clear();
     }
     //------------------------------------------------
 
@@ -152,6 +168,7 @@ public class ManageEmployeesController implements Initializable {
     @FXML private TableColumn<User, String> Phone;
     @FXML private TableColumn<User, String> JobTitle;
     @FXML private TableColumn<User, String> HireDate;
+    @FXML private TableColumn<User, Float> NetSalary;
 
     @FXML
     private void displayUsersData() {
@@ -175,6 +192,9 @@ public class ManageEmployeesController implements Initializable {
         if (DepartmentName == null) {
             System.out.println("⚠ DepartmentName column is not initialized!");
         }
+        NetSalary.setCellValueFactory(cellData ->
+                new ReadOnlyObjectWrapper<>(cellData.getValue().getNetSalary())
+        );
 
         usersTable.setItems(userList);
     }
@@ -203,5 +223,7 @@ public class ManageEmployeesController implements Initializable {
         if (selected.getHireDate() != null) {
             hireDatePicker.setValue(selected.getHireDate().toLocalDate());
         }
+
+        salaryField.setText(String.valueOf(selected.getNetSalary()));
     }
 }
