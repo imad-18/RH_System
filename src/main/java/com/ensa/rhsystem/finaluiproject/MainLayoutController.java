@@ -27,8 +27,8 @@ MainLayoutController {
 
     public void handleHomeButton(ActionEvent actionEvent) {
         try {
-            Parent employeeHomePage = FXMLLoader.load(getClass().getResource("employee/employee-home.fxml"));
-            mainBorderPane.setCenter(employeeHomePage);
+            Parent adminHomePage = FXMLLoader.load(getClass().getResource("home-page.fxml"));
+            mainBorderPane.setCenter(adminHomePage);
         } catch (IOException e) {
             e.printStackTrace();
         }
