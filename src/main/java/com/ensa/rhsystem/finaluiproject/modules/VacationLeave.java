@@ -9,6 +9,61 @@ public class VacationLeave {
     private Date endDate;
     private User user; // Foreign key reference to User
     private LeaveType leaveType; // Foreign key reference to LeaveType
+    private int idUser;
+
+    private String leaveReason;
+    private String firstName;
+    private String lastName;
+
+    public VacationLeave() {
+    }
+
+
+
+    public VacationLeave(int idVacationLeave, String statusOkNo, Date startDate, Date endDate, User user, LeaveType leaveType, int idUser, String leaveReason, String firstName, String lastName) {
+        this.idVacationLeave = idVacationLeave;
+        this.statusOkNo = statusOkNo;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.user = user;
+        this.leaveType = leaveType;
+        this.idUser = idUser;
+        this.leaveReason = leaveReason;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLeaveReason() {
+        return leaveReason;
+    }
+
+    public void setLeaveReason(String leaveReason) {
+        this.leaveReason = leaveReason;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
 
     // Getters and Setters
     public int getIdVacationLeave() {

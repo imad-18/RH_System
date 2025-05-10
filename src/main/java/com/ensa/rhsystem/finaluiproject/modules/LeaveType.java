@@ -1,5 +1,7 @@
 package com.ensa.rhsystem.finaluiproject.modules;
 
+import java.sql.Date;
+
 public class LeaveType {
     private int idLeaveType;
     private String vacationType;
@@ -20,4 +22,6 @@ public class LeaveType {
     public void setVacationType(String vacationType) {
         this.vacationType = vacationType;
     }
+
+
 }

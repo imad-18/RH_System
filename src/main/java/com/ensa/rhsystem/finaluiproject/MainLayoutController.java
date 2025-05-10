@@ -17,8 +17,8 @@ MainLayoutController {
     @FXML
     public void initialize() {
         try {
-            Parent employeeHomePage = FXMLLoader.load(getClass().getResource("employee/employee-home.fxml"));
-            mainBorderPane.setCenter(employeeHomePage);
+            Parent adminHomePage = FXMLLoader.load(getClass().getResource("home-page.fxml"));
+            mainBorderPane.setCenter(adminHomePage);
         } catch (IOException e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Could not load the home page.").showAndWait();
