@@ -10,15 +10,15 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Optional;
 
-import static com.ensa.rhsystem.finaluiproject.dao.CompteDAO.getComptes;
+import static com.ensa.rhsystem.finaluiproject.dao.CompteDAO.*;
+import static com.ensa.rhsystem.finaluiproject.dao.UserDAO.showErrorDialog;
 
 public class ManageUsersController {
 
+    @FXML private ComboBox<String> comboBoxField;
     @FXML private TableColumn<Compte, String> FirstNameColumn;
 
     @FXML private TableColumn<Compte, Integer> IdUserColumn;
@@ -37,9 +37,10 @@ public class ManageUsersController {
 
     @FXML private TextField userIdField;
 
-    public void initialize() {
+    public void initialize() throws SQLException {
 
         displyaAccountsData();
+        loadDepartmentNames();
 
         // Load account' info into text fields when a certain row is clicked
         comptesTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -48,6 +49,35 @@ public class ManageUsersController {
             }
         });
 
+    }
+
+
+    private void loadDepartmentNames() throws SQLException {
+        String myQuery = "SELECT u.first_name, u.last_name " +
+                "FROM users u " +
+                "JOIN salary s on u.id_user = s.id_user";
+
+        Connection conn = DbConnection.getConnection();
+
+        try (conn){
+            // Ensure the connection is not null
+            System.out.println("Connection established.");
+
+            // Create PreparedStatement
+            Statement stmt = conn.createStatement();
+            System.out.println("Connection established2.");
+
+            // Execute query and get result set
+            ResultSet rs = stmt.executeQuery(myQuery);
+            System.out.println("Connection established3.");
+            while (rs.next()) {
+                String firstnames = rs.getString("first_name") + " " + rs.getString("last_name");
+                comboBoxField.getItems().add(firstnames);
+            }
+
+        } catch (Exception e) {
+            showErrorDialog("Database Error", "An error occurred while loading full names.", e);
+        }
     }
 
 
@@ -61,21 +91,23 @@ public class ManageUsersController {
 
             pstmt.setString(1, loginTextField.getText());
             pstmt.setString(2, passwordTextField.getText());
-            pstmt.setInt(3, Integer.parseInt(userIdField.getText()));
+            //pstmt.setInt(3, Integer.parseInt(userIdField.getText()));
+            System.out.println(comboBoxField.getValue());
+            pstmt.setInt(3, getUserIdByFullName(comboBoxField.getValue()));
 
             int rowsInserted = pstmt.executeUpdate();
             if (rowsInserted > 0) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Success");
                 alert.setHeaderText(null);
-                alert.setContentText("Account created successfully for user with ID = "+userIdField.getText()+"!");
+                alert.setContentText("Account created successfully for user with ID = "+getUserIdByFullName(comboBoxField.getValue())+"!");
                 alert.showAndWait();
                 System.out.println("Account created successfully.");
             }
 
             clearCreateAccountsForm();
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -84,7 +116,7 @@ public class ManageUsersController {
     private void clearCreateAccountsForm() {
         loginTextField.clear();
         passwordTextField.clear();
-        userIdField.clear();
+        comboBoxField.getSelectionModel().clearSelection();
     }
 
     // Display created accounts into the table view
@@ -106,9 +138,9 @@ public class ManageUsersController {
 
     // Display the elements of the selected row
     public void populateFieldsWithSelectedAccount(Compte selected) {
-        userIdField.setText(String.valueOf(selected.getIdUser()));
         loginTextField.setText(selected.getLogin());
         passwordTextField.setText(selected.getPassword());
+        comboBoxField.getSelectionModel().select(selected.getNom()+" "+selected.getPrenom());
     }
 
     // // Handle 'UPDATE' button -Btw No DAO function is used!-
@@ -120,18 +152,18 @@ public class ManageUsersController {
             PreparedStatement pstmt = conn.prepareStatement(updateAccountSql);
             pstmt.setString(1, loginTextField.getText());
             pstmt.setString(2, passwordTextField.getText());
-            pstmt.setInt(3, Integer.parseInt(userIdField.getText()));
+            pstmt.setInt(3, getUserIdByFullName(comboBoxField.getValue()));
             int rowsInserted = pstmt.executeUpdate();
             if (rowsInserted > 0) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Success");
                 alert.setHeaderText(null);
-                alert.setContentText("Account updated successfully for user with ID = "+userIdField.getText()+"!");
+                alert.setContentText("Account updated successfully for user with ID = "+getUserIdByFullName(comboBoxField.getValue())+"!");
                 alert.showAndWait();
             }
             clearCreateAccountsForm();
 
-        }catch (SQLException e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

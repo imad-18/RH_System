@@ -54,4 +54,30 @@ public class CompteDAO {
         }
 
     }
+
+    public static int getUserIdByFullName(String fullName) throws Exception {
+        // Split the full name
+        String[] parts = fullName.trim().split(" ");
+        if (parts.length < 2) {
+            throw new Exception("Invalid full name format: " + fullName);
+        }
+        String firstName = parts[0];
+        String lastName = parts[1]; // You can enhance this if you expect multiple-word last names
+
+        String query = "SELECT id_user FROM users WHERE first_name = ? AND last_name = ?";
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, firstName);
+            pstmt.setString(2, lastName);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("id_user");
+            } else {
+                throw new Exception("User not found: " + fullName);
+            }
+        }
+    }
+
 }

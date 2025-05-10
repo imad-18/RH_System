@@ -1,0 +1,13 @@
+[33m5760aee[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m add FullName table column within the Manage users page, using a query with join method
+[33m154e8e1[m update manage-users UI + create 'addUserAccount()' + 'updateAccpunt()' + 'displyaAccountsData()' methods + refresh
+[33mf7e7a0c[m add updateUser + deleteUser methods + icon button to refresh the tableView :)
+[33me2b0bef[m Add salary TextField into UI + insert net salary into salary table when trying to insert a new user:)
+[33mc93a355[m add the DAO file
+[33m45c7bf9[m fetching depatments name instead of their id's within the tableView
+[33md0ace83[m Display user's data within the input fields when a certain row is clicked
+[33m8c8ad05[m loadDepartmentNames() from db + insertUser() into db +displayUsersData() in the UI
+[33ma919c8b[m add the manage-employees.fxml
+[33m623e35f[m adding home and leaves pages for the employee
+[33mf1005f9[m Adding employee's sidebar + employee's managing leaves page
+[33m27f8903[m add mainLayout, manage-users and manage-leaves fxml files
+[33m616ae73[m First start
