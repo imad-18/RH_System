@@ -36,8 +36,8 @@
                 <TextField fx:id="loginTextField" layoutX="105.0" layoutY="207.0" prefHeight="25.0" prefWidth="151.0" style="-fx-border-color: #1c81b3; -fx-background-radius: 7px; -fx-border-radius: 7px;" />
                 <TextField fx:id="passwordTextField" layoutX="105.0" layoutY="248.0" prefHeight="25.0" prefWidth="151.0" style="-fx-border-color: #1c81b3; -fx-background-radius: 7px; -fx-border-radius: 7px;" />
                 <Button layoutX="84.0" layoutY="307.0" mnemonicParsing="false" onAction="#createCompte" prefHeight="30.0" style="-fx-background-color: #A7C957; -fx-border-color: #d2d2d2; -fx-background-radius: 7px; -fx-border-radius: 7px;" text="Create New User" />
-                <Button onAction="#updateAccount" layoutX="104.0" layoutY="353.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="65.0" style="-fx-border-color: #d2d2d2; -fx-background-color: #FFBE0B; -fx-background-radius: 7px; -fx-border-radius: 7px;" text="Update" />
-                <Button layoutX="97.0" layoutY="451.0" mnemonicParsing="false" prefHeight="26.0" style="-fx-border-color: #d2d2d2; -fx-background-color: #FB5607; -fx-background-radius: 7px; -fx-border-radius: 7px;" text="Delete User" />
+                <Button layoutX="104.0" layoutY="353.0" mnemonicParsing="false" onAction="#updateAccount" prefHeight="30.0" prefWidth="65.0" style="-fx-border-color: #d2d2d2; -fx-background-color: #FFBE0B; -fx-background-radius: 7px; -fx-border-radius: 7px;" text="Update" />
+                <Button layoutX="97.0" layoutY="451.0" mnemonicParsing="false" onAction="#handleDeleteAccountButtonClick" prefHeight="26.0" style="-fx-border-color: #d2d2d2; -fx-background-color: #FB5607; -fx-background-radius: 7px; -fx-border-radius: 7px;" text="Delete User" />
             <Label layoutX="35.0" layoutY="172.0" prefHeight="17.0" prefWidth="65.0" text="User ID     :">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -51,10 +51,11 @@
             <children>
                 <TableView fx:id="comptesTable" layoutX="6.0" prefHeight="540.0" prefWidth="498.0" style="-fx-background-color: #fff; -fx-background-radius: 10px; -fx-border-color: linear-gradient(to bottom right, #a7f0ff , #00d4ff); -fx-border-radius: 0 0 10px 10px;">
                     <columns>
-                  <TableColumn fx:id="IdAccountColumn" prefWidth="110.66665649414062" text="ID Account" />
-                  <TableColumn fx:id="IdUserColumn" prefWidth="111.33334350585938" text="ID User" />
-                        <TableColumn fx:id="LoginColumn" prefWidth="132.0" style="-fx-size: 30px;" text="Login" />
-                        <TableColumn fx:id="PasswordColumn" prefWidth="142.0" text="Password" />
+                  <TableColumn fx:id="IdAccountColumn" prefWidth="69.33334350585938" text="ID Account" />
+                  <TableColumn fx:id="IdUserColumn" prefWidth="78.0" text="ID User" />
+                  <TableColumn fx:id="FirstNameColumn" prefWidth="112.66665649414062" text="Full Name" />
+                        <TableColumn fx:id="LoginColumn" minWidth="0.0" prefWidth="115.33331298828125" style="-fx-size: 30px;" text="Login" />
+                        <TableColumn fx:id="PasswordColumn" prefWidth="120.0" text="Password" />
                     </columns>
                 </TableView>
             </children>

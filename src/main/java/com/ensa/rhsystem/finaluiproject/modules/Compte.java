@@ -6,7 +6,24 @@ public class Compte {
     private String password;
     private User user; // Foreign key reference to User
     private int idUser;
+    private String nom;
+    private String prenom;
 
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
 
     public int getIdUser() {
         return idUser;

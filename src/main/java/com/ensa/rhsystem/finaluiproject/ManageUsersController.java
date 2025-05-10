@@ -1,6 +1,8 @@
 package com.ensa.rhsystem.finaluiproject;
 
+import com.ensa.rhsystem.finaluiproject.dao.CompteDAO;
 import com.ensa.rhsystem.finaluiproject.modules.Compte;
+import com.ensa.rhsystem.finaluiproject.modules.User;
 import com.ensa.rhsystem.finaluiproject.utils.DbConnection;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,10 +13,13 @@ import javafx.scene.control.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Optional;
 
 import static com.ensa.rhsystem.finaluiproject.dao.CompteDAO.getComptes;
 
 public class ManageUsersController {
+
+    @FXML private TableColumn<Compte, String> FirstNameColumn;
 
     @FXML private TableColumn<Compte, Integer> IdUserColumn;
 
@@ -33,7 +38,10 @@ public class ManageUsersController {
     @FXML private TextField userIdField;
 
     public void initialize() {
+
         displyaAccountsData();
+
+        // Load account' info into text fields when a certain row is clicked
         comptesTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 populateFieldsWithSelectedAccount(newSelection);
@@ -44,7 +52,7 @@ public class ManageUsersController {
 
 
 
-    // Create new account for a certain user with a specific userID
+    // Create new account for a certain user with a specific userID!!
     public void createCompte() {
         String createAccountQuery = "insert into compte(login, password, id_user) values(?,?,?)";
 
@@ -92,6 +100,7 @@ public class ManageUsersController {
 
         IdUserColumn.setCellValueFactory(cellData -> { return new SimpleIntegerProperty(cellData.getValue().getIdUser()).asObject();});
 
+        FirstNameColumn.setCellValueFactory(cellData -> {return new SimpleStringProperty(cellData.getValue().getNom()+" "+cellData.getValue().getPrenom());});
         comptesTable.setItems(comptesList);
     }
 
@@ -102,7 +111,7 @@ public class ManageUsersController {
         passwordTextField.setText(selected.getPassword());
     }
 
-    // update a user account
+    // // Handle 'UPDATE' button -Btw No DAO function is used!-
     public void updateAccount() {
         Compte seletedAccount = comptesTable.getSelectionModel().getSelectedItem();
         String updateAccountSql = "update compte set login = ?, password = ? where id_user = ?";
@@ -125,6 +134,27 @@ public class ManageUsersController {
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
+    }
+
+    // Handle the 'DELETE' button for a selected user ACCOUNT
+    public void handleDeleteAccountButtonClick() throws SQLException {
+        Compte selectedRow = comptesTable.getSelectionModel().getSelectedItem();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Confirmation");
+        alert.setHeaderText("Are you sure you want to delete this user?");
+        alert.setContentText("This will permanently remove the user and their salary record.");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            boolean success = CompteDAO.deleteAccountById(selectedRow.getIdCompte());
+            if (success){
+                comptesTable.getItems().remove(selectedRow);
+                System.out.println("Account deleted successfully");
+            }
+            clearCreateAccountsForm();
+        }
+
     }
 
 

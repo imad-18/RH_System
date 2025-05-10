@@ -173,6 +173,8 @@ public class ManageEmployeesController implements Initializable {
     @FXML private TableColumn<User, String> HireDate;
     @FXML private TableColumn<User, Float> NetSalary;
 
+
+    // Display User data with the user table view
     @FXML
     private void displayUsersData() {
         ObservableList<User> userList = UserDAO.getAllUsers();
@@ -204,7 +206,6 @@ public class ManageEmployeesController implements Initializable {
     //whenever a row is clicked/selected, all the user’s data will be displayed instantly in the input fields
     // — no button needed.
 
-
     private void populateFieldsWithSelectedUser(User selected) {
         firstNameField.setText(selected.getFirstName());
         lastNameField.setText(selected.getLastName());
@@ -228,6 +229,7 @@ public class ManageEmployeesController implements Initializable {
     }
 
 
+    // Handle 'UPDATE' button -Btw No DAO function is used!-
     public void updateUser() {
         User selected = usersTable.getSelectionModel().getSelectedItem();
         if (selected == null) {
@@ -284,26 +286,8 @@ public class ManageEmployeesController implements Initializable {
         }
     }
 
-    public void deleteUser(){
-        User selected = usersTable.getSelectionModel().getSelectedItem();
-        String deleteUserQuery = "DELETE FROM users WHERE id_user = ?";
-        String deleteSalaryQuery = "DELETE FROM salary WHERE id_user = ?";
 
-        try (Connection conn = DbConnection.getConnection();
-             PreparedStatement userPstmt = conn.prepareStatement(deleteUserQuery);
-             PreparedStatement salaryPstmt = conn.prepareStatement(deleteSalaryQuery)){
-
-            userPstmt.setInt(1, selected.getIdUser());
-            userPstmt.executeUpdate();
-
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
+    // Handle the 'DELETE' button for a selected user/row
     @FXML
     private void handleDeleteButtonClick() {
         User selected = usersTable.getSelectionModel().getSelectedItem();
