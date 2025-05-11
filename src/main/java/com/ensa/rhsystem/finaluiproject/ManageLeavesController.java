@@ -1,19 +1,18 @@
 package com.ensa.rhsystem.finaluiproject;
 
-import com.ensa.rhsystem.finaluiproject.modules.LeaveType;
+import com.ensa.rhsystem.finaluiproject.dao.LeavesDAO;
 import com.ensa.rhsystem.finaluiproject.modules.VacationLeave;
 import com.ensa.rhsystem.finaluiproject.utils.DbConnection;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.*;
 
-import static com.ensa.rhsystem.finaluiproject.dao.LeavesDAO.getLeavesRequest;
+import static com.ensa.rhsystem.finaluiproject.dao.LeavesDAO.*;
 import static com.ensa.rhsystem.finaluiproject.dao.UserDAO.showErrorDialog;
 
 public class ManageLeavesController {
@@ -44,6 +43,10 @@ public class ManageLeavesController {
 
     @FXML private DatePicker startDateField;
 
+
+    @FXML private Button approveButton;
+    @FXML private Button denyButton;
+
     public void initialize() throws SQLException {
         loadLeaveTypes();
         displayLeavesRequest();
@@ -57,6 +60,13 @@ public class ManageLeavesController {
                 }
             }
         });
+
+        leavesTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            boolean disable = (newSelection == null);
+            approveButton.setDisable(disable);
+            denyButton.setDisable(disable);
+        });
+
     }
 
 
@@ -122,6 +132,69 @@ public class ManageLeavesController {
         startDateField.setValue(selectedLeave.getStartDate().toLocalDate());
         endDateField.setValue(selectedLeave.getEndDate().toLocalDate());
     }
+
+
+    @FXML
+    public void approveLeaveRequest(ActionEvent event) {
+        VacationLeave selectedLeave = leavesTableView.getSelectionModel().getSelectedItem();
+        if (selectedLeave != null) {
+            try {
+                selectedLeave.setStatusOkNo("Approved");
+
+                // Update it in the database
+                updateLeaveStatusInDatabase(selectedLeave);
+
+                // Refresh the table to show new status/color
+                leavesTableView.refresh();
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Success");
+                alert.setHeaderText("Leave with id= "+selectedLeave.getIdVacationLeave()+" has been approved.");
+                alert.showAndWait();
+
+                clearLeaveForm();
+            } catch (SQLException e) {
+                showError("Database Error", e.getMessage());
+            }
+        } else {
+            showError("No Selection", "Please select a leave request to approve.");
+        }
+    }
+
+
+    @FXML
+    public void denyLeaveRequest(ActionEvent event) {
+        VacationLeave selectedLeave = leavesTableView.getSelectionModel().getSelectedItem();
+        if (selectedLeave != null) {
+            try {
+                selectedLeave.setStatusOkNo("Denied");
+                updateLeaveStatusInDatabase(selectedLeave);
+                leavesTableView.refresh();
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Success");
+                alert.setHeaderText("Leave with id= "+selectedLeave.getIdVacationLeave()+" has been denied!!");
+                alert.showAndWait();
+
+                clearLeaveForm();
+            } catch (SQLException e) {
+                showError("Database Error", e.getMessage());
+            }
+        } else {
+            showError("No Selection", "Please select a leave request to deny.");
+        }
+    }
+
+
+    public void clearLeaveForm(){
+        userIdField.clear();
+        userNameField.clear();
+        leaveTypeComboBox.setValue(null);
+        startDateField.setValue(null);
+        endDateField.setValue(null);
+    }
+
+
 
 
 }

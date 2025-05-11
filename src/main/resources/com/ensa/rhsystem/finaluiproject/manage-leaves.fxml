@@ -56,8 +56,8 @@
             </Label>
             <TextField fx:id="userIdField" layoutX="90.0" layoutY="117.0" style="-fx-border-color: #1c81b3; -fx-border-radius: 7px; -fx-background-radius: 7px;" />
             <TextField fx:id="userNameField" layoutX="90.0" layoutY="164.0" style="-fx-border-color: #1c81b3; -fx-background-radius: 7px; -fx-border-radius: 7px;" />
-            <Button layoutX="76.0" layoutY="375.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="112.0" style="-fx-background-color: #A7C957; -fx-border-color: #d2d2d2; -fx-background-radius: 7px; -fx-border-radius: 7px;" text="Approve" />
-            <Button layoutX="76.0" layoutY="441.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="112.0" style="-fx-background-color: #FB5607; -fx-border-color: #d2d2d2; -fx-background-radius: 7px; -fx-border-radius: 7px;" text="Decline " />
+            <Button fx:id="approveButton" onAction="#approveLeaveRequest" layoutX="76.0" layoutY="375.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="112.0" style="-fx-background-color: #A7C957; -fx-border-color: #d2d2d2; -fx-background-radius: 7px; -fx-border-radius: 7px;" text="Approve" />
+            <Button fx:id="denyButton" onAction="#denyLeaveRequest" layoutX="76.0" layoutY="441.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="112.0" style="-fx-background-color: #FB5607; -fx-border-color: #d2d2d2; -fx-background-radius: 7px; -fx-border-radius: 7px;" text="Decline " />
             <FontAwesomeIconView fill="#023047" glyphName="CALENDAR" layoutX="97.0" layoutY="76.0" size="60" />
             <ComboBox fx:id="leaveTypeComboBox" layoutX="90.0" layoutY="215.0" prefWidth="150.0" style="-fx-border-radius: 7px; -fx-border-color: #1c81b3; -fx-background-radius: 7px;" />
             <DatePicker fx:id="startDateField" layoutX="90.0" layoutY="260.0" prefHeight="25.0" prefWidth="151.0" style="-fx-background-radius: 7px; -fx-border-radius: 7px; -fx-border-color: #1c81b3;" />

@@ -8,10 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class LeavesDAO {
 
@@ -47,6 +44,25 @@ public class LeavesDAO {
         }
 
         return vacationLeaveList;
+    }
+
+
+    public static void updateLeaveStatusInDatabase(VacationLeave selectedLeave) throws SQLException {
+        String updateQuery = "UPDATE vacation_leave SET status_ok_no = ? WHERE id_vacation_leave = ?";
+
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(updateQuery)) {
+
+            pstmt.setString(1, selectedLeave.getStatusOkNo());
+            pstmt.setInt(2, selectedLeave.getIdVacationLeave());
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+        }
+    }
+
+    public static void showError(String databaseError, String message) {
+        return;
     }
 
 }
