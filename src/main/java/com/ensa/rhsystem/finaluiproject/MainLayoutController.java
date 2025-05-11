@@ -3,9 +3,12 @@ package com.ensa.rhsystem.finaluiproject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -70,6 +73,21 @@ MainLayoutController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    @FXML
+    private void handleLogout(ActionEvent event) throws IOException {
+        // Clear session
+        Session.clear();
+
+        // Navigate back to the login page
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("signIn-page.fxml")); // Change to your actual login FXML
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
 }

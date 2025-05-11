@@ -44,7 +44,7 @@
                         </Button>
                         <FontAwesomeIconView fill="#023047" glyphName="USERS" layoutX="33.0" layoutY="309.0" size="20" text="" />
                         <FontAwesomeIconView fill="#023047" glyphName="USER_PLUS" layoutX="32.0" layoutY="364.0" size="20" />
-                        <Button alignment="CENTER_RIGHT" layoutX="18.0" layoutY="531.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="78.0" text="Log Out" />
+                        <Button onAction="#handleLogout" alignment="CENTER_RIGHT" layoutX="18.0" layoutY="531.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="78.0" text="Log Out" />
                         <FontAwesomeIconView glyphName="SIGN_OUT" layoutX="23.0" layoutY="551.0" size="18" />
                         <Button layoutX="27.0" layoutY="394.0" mnemonicParsing="false" onAction="#handleManageLeavesButton" prefHeight="32.0" prefWidth="172.0" text="Manage Leaves">
                            <font>
