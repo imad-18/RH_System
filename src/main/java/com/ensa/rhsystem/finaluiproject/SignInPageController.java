@@ -59,6 +59,11 @@ public class SignInPageController {
             if (result != null) {
                 int userId = (int) result.get("id_user");
                 String role = (String) result.get("role_admin_or_employee");
+
+                // Store user info in session
+                Session.loggedInUserId = userId;
+                Session.loggedInUserRole = role;
+
                 navigateToHomePage(event, userId, role);
             } else {
                 System.out.println("Login Failed: Invalid email or password.");

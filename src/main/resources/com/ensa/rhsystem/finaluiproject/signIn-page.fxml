@@ -35,7 +35,7 @@
                         <Font name="Georgia" size="26.0" />
                     </font>
                 </Label>
-                <TextField fx:id="emailField" layoutX="103.0" layoutY="158.0" promptText="Mail Adresss" />
+                <TextField fx:id="emailField" layoutX="103.0" layoutY="158.0" promptText="Mail Address" />
                 <PasswordField fx:id="passwordField" layoutX="103.0" layoutY="223.0" promptText="Password" />
                 <Button fx:id="loginButton" layoutX="138.0" layoutY="283.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="78.0" text="Login" />
             </children></AnchorPane>
