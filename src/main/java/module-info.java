@@ -3,6 +3,7 @@ module com.ensa.rhsystem.finaluiproject {
     requires javafx.fxml;
     requires java.desktop;
     requires java.sql;
+    requires transitive mysql.connector.j;
 
 
     opens com.ensa.rhsystem.finaluiproject to javafx.fxml;

@@ -66,7 +66,7 @@ public class EmployeeManagesLeavesController {
         }
     }
 
-    public void createCompte() {
+    public void reaquestLeaves() {
         String createAccountQuery = "insert into vacation_leave(start_date, end_date, id_user, id_leave_type) " +
                 "VALUES (?, ?, ?, ?);";
 
@@ -78,7 +78,6 @@ public class EmployeeManagesLeavesController {
             pstmt.setInt(3, Session.loggedInUserId); // use logged in user id
             pstmt.setInt(4, getLeaveTypeIdFromComboBox(leaveTypeComboBox.getValue()));
 
-            pstmt.executeUpdate();
             System.out.println("Leave request submitted successfully.");
 
             int rowsInserted = pstmt.executeUpdate();

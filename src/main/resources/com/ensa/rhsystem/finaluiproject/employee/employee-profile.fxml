@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<?import javafx.scene.text.Font?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.ensa.rhsystem.finaluiproject.employeeControllers.ProfileEmployeeController"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ensa.rhsystem.finaluiproject.employeeControllers.ProfileEmployeeController">
 
     <children>
         <Line endX="-91.60000610351562" endY="192.20001220703125" layoutX="320.0" layoutY="277.0" startX="-91.60000610351562" startY="-90.80000305175781" />
@@ -45,5 +41,6 @@
         <TextField fx:id="HireDateField" editable="false" layoutX="363.0" layoutY="350.0" style="-fx-border-color: #1c81b3; -fx-border-radius: 7px; -fx-background-radius: 7px;" />
         <TextField fx:id="JobTitleField" editable="false" layoutX="674.0" layoutY="299.0" style="-fx-border-color: #1c81b3; -fx-border-radius: 7px; -fx-background-radius: 7px;" />
         <TextField fx:id="DepartmentTextField" editable="false" layoutX="675.0" layoutY="349.0" style="-fx-border-color: #1c81b3; -fx-border-radius: 7px; -fx-background-radius: 7px;" />
+      <FontAwesomeIconView glyphName="USER" layoutX="412.0" layoutY="88.0" size="70" />
     </children>
 </AnchorPane>

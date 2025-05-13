@@ -26,7 +26,7 @@
       <ComboBox fx:id="leaveTypeComboBox" layoutX="123.0" layoutY="321.0" prefWidth="150.0" promptText="Select leave type" style="-fx-border-color: #1c81b3; -fx-border-radius: 7px; -fx-background-radius: 7px;" />
       <DatePicker fx:id="startDateField" layoutX="334.0" layoutY="321.0" promptText="From" style="-fx-border-color: #1c81b3; -fx-border-radius: 7px; -fx-background-radius: 7px;" />
       <DatePicker fx:id="endDateField" layoutX="561.0" layoutY="321.0" promptText="To" style="-fx-border-color: #1c81b3; -fx-background-radius: 7px; -fx-border-radius: 7px;" />
-      <Button onAction="#createCompte" layoutX="365.0" layoutY="405.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="112.0" style="-fx-background-color: #A7C957; -fx-border-color: #d2d2d2; -fx-background-radius: 8px; -fx-border-radius: 8px;" text="Seek Leave">
+      <Button onAction="#reaquestLeaves" layoutX="365.0" layoutY="405.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="112.0" style="-fx-background-color: #A7C957; -fx-border-color: #d2d2d2; -fx-background-radius: 8px; -fx-border-radius: 8px;" text="Seek Leave">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

@@ -6,9 +6,53 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.text.Font?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.ensa.rhsystem.finaluiproject.employeeControllers.EmployeeCoursesController"
             prefHeight="400.0" prefWidth="600.0">
+
+    <children>
+
+        <!-- Courses Table -->
+        <AnchorPane layoutX="40.0" layoutY="30.0" prefHeight="200.0" prefWidth="762.0">
+            <children>
+                <TableView fx:id="courseTable" prefHeight="200.0" prefWidth="762.0" style="-fx-background-color: #fff; -fx-border-color: linear-gradient(to bottom right, #a7f0ff , #00d4ff); -fx-border-radius: 0 0 10px 10px;">
+                    <columns>
+                        <TableColumn fx:id="colCourseName" prefWidth="300.0" text="Course Name" />
+                        <TableColumn fx:id="colCourseStart" prefWidth="230.0" text="Start Date" />
+                        <TableColumn fx:id="colCourseEnd" prefWidth="230.0" text="End Date" />
+                    </columns>
+                </TableView>
+            </children>
+        </AnchorPane>
+
+        <!-- Enroll Button -->
+        <Button fx:id="enrollButton" layoutX="365.0" layoutY="240.0" mnemonicParsing="false" onAction="#enrollInCourse" prefHeight="35.0" prefWidth="112.0" style="-fx-background-color: #A7C957; -fx-border-color: #d2d2d2; -fx-background-radius: 8px; -fx-border-radius: 8px;" text="Enroll">
+            <font>
+                <Font name="System Bold" size="12.0"/>
+            </font>
+        </Button>
+
+        <!-- Events Table -->
+        <AnchorPane layoutX="40.0" layoutY="300.0" prefHeight="200.0" prefWidth="762.0">
+            <children>
+                <TableView fx:id="eventTable" prefHeight="200.0" prefWidth="762.0" style="-fx-background-color: #fff; -fx-border-color: linear-gradient(to bottom right, #a7f0ff , #00d4ff); -fx-border-radius: 0 0 10px 10px;">
+                    <columns>
+                        <TableColumn fx:id="colEventName" prefWidth="450.0" text="Event Name" />
+                        <TableColumn fx:id="colEventDate" prefWidth="312.0" text="Event Date" />
+                    </columns>
+                </TableView>
+            </children>
+        </AnchorPane>
+
+        <!-- Participate Button -->
+        <Button fx:id="participateButton" layoutX="365.0" layoutY="510.0" mnemonicParsing="false" onAction="#participateInEvent" prefHeight="35.0" prefWidth="112.0" style="-fx-background-color: #00b4d8; -fx-text-fill: white; -fx-background-radius: 8px; -fx-border-radius: 8px;" text="Participate">
+            <font>
+                <Font name="System Bold" size="12.0"/>
+            </font>
+        </Button>
+
+    </children>
 
 </AnchorPane>

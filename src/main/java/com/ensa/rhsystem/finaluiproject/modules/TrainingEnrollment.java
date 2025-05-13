@@ -10,6 +10,15 @@ public class TrainingEnrollment {
     private String status;
     private User user; // Foreign key reference to User
 
+    public TrainingEnrollment(String advancedJavaDevelopment, Date date, Date date1) {
+        this.courseName = advancedJavaDevelopment;
+        this.startDate = date;
+        this.endDate = date1;
+    }
+
+    public TrainingEnrollment() {
+    }
+
     // Getters and Setters
     public int getIdEnrollment() {
         return idEnrollment;
