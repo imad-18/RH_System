@@ -1,9 +1,8 @@
 package com.ensa.rhsystem.finaluiproject.dao;
 
-import com.ensa.rhsystem.finaluiproject.modules.Attendance;
-import com.ensa.rhsystem.finaluiproject.modules.DateDim;
-import com.ensa.rhsystem.finaluiproject.modules.Salary;
-import com.ensa.rhsystem.finaluiproject.modules.TrainingEnrollment;
+import com.ensa.rhsystem.finaluiproject.Session;
+import com.ensa.rhsystem.finaluiproject.modules.*;
+import com.ensa.rhsystem.finaluiproject.utils.DbConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -193,4 +192,74 @@ public class EmployeeDAO {
         }
         return null;
     }*/
+
+
+
+    public static ArrayList<Object> getUserAndCompteInfo(int idUser) throws SQLException {
+        ArrayList<Object> userAndCompteList = new ArrayList<>();
+
+        // Get a new DB connection explicitly
+        Connection conn = DbConnection.getConnection();
+
+        // Query to get user info
+        String userQuery = "SELECT * FROM users WHERE id_user = ?";
+        PreparedStatement userStmt = conn.prepareStatement(userQuery);
+        userStmt.setInt(1, Session.loggedInUserId);
+        ResultSet userResult = userStmt.executeQuery();
+
+        if (userResult.next()) {
+            // Create User object and set properties from result set
+            User user = new User();
+            user.setIdUser(Session.loggedInUserId);
+            String roleFromDB = userResult.getString("role_admin_or_employee");
+            Session.loggedInUserRole = roleFromDB;
+            //user.setRoleAdminOrEmployee(userResult.getString("role_admin_or_employee"));
+            String mynaame = userResult.getString("first_name");
+            System.out.println("Mu naaaaaaaaaaaaame"+ mynaame);
+            user.setFirstName(userResult.getString("first_name"));
+            user.setLastName(userResult.getString("last_name"));
+            user.setEmailAddress(userResult.getString("email_address"));
+            user.setPhoneNumber(userResult.getString("phone_number"));
+            user.setAddress(userResult.getString("address"));
+            user.setDateOfBirth(userResult.getDate("date_of_birth"));
+            user.setHireDate(userResult.getDate("hire_date"));
+            user.setJobTitle(userResult.getString("job_title"));
+
+            // Get department info
+            int id_dep = userResult.getInt("id_department");
+            String depQuery = "SELECT name FROM department WHERE id_department = ?";
+            PreparedStatement depStmt = conn.prepareStatement(depQuery);
+            depStmt.setInt(1, id_dep);
+            ResultSet depResult = depStmt.executeQuery();
+
+            Department dep = new Department();
+            if (depResult.next()) {
+                dep.setIdDepartment(id_dep);
+                dep.setName(depResult.getString("name"));
+            }
+            user.setDepartment(dep);
+
+            // Get account info (Compte)
+            String compteQuery = "SELECT * FROM compte WHERE id_user = ?";
+            PreparedStatement compteStmt = conn.prepareStatement(compteQuery);
+            compteStmt.setInt(1, idUser);
+            ResultSet compteResult = compteStmt.executeQuery();
+
+            if (compteResult.next()) {
+                // Create Compte object and set properties from result set
+                Compte compte = new Compte();
+                compte.setIdCompte(compteResult.getInt("id_compte"));
+                compte.setLogin(compteResult.getString("login"));
+                compte.setPassword(compteResult.getString("password"));
+                compte.setUser(user); // Associate user with compte
+
+                // Add both User and Compte to the result list
+                userAndCompteList.add(user);
+                userAndCompteList.add(compte);
+            }
+        }
+
+        return userAndCompteList;
+    }
+
 }

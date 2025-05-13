@@ -7,10 +7,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class
 MainLayoutController {
@@ -78,16 +80,29 @@ MainLayoutController {
 
     @FXML
     private void handleLogout(ActionEvent event) throws IOException {
-        // Clear session
-        Session.clear();
+        // Create a confirmation alert
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Logout Confirmation");
+        alert.setHeaderText("Are you sure you want to log out?");
+        alert.setContentText("You will be redirected to the login page.");
 
-        // Navigate back to the login page
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("signIn-page.fxml")); // Change to your actual login FXML
-        Parent root = loader.load();
+        // Show the alert and wait for the user's response
+        Optional<ButtonType> result = alert.showAndWait();
 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+        // If the user clicks "OK" (CONFIRMATION), proceed with logout
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // Clear session
+            Session.clear();
+
+            // Navigate back to the login page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("signIn-page.fxml"));
+            Parent root = loader.load();
+
+            // Get current stage and set the new scene
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
     }
 
 }
